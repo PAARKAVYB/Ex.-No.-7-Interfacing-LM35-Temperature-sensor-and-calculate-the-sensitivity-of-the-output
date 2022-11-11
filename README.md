@@ -1,18 +1,12 @@
- 
 
-
-### Ex. No. :7
-## Date: 
-### Interfacing LM35 Temperature sensor and calculate the sensitivity of the output
-
-## Aim: 
+# Interfacing LM35 Temperature sensor and calculate the sensitivity of the output
+# AIM: 
 To configure internal ADC for   LPC2148 ARM 7  for interfacing LM35 temperature sensor.
-## Components required:
+# COMPONENTS REQUIRED:
 Proteus ISIS professional suite, Kiel μ vision 5 Development environment 
  ![image](https://user-images.githubusercontent.com/36288975/200110365-9e1f8a55-c943-43f1-94de-60003f6308b7.png)
-  
 Figure-01 ADC pins in LPC2148 ARM 7 controller 
- ## Theory 
+# THEORY: 
 Analog to Digital Converter (ADC) is used to convert analog signal into digital form. LPC2148 has two inbuilt 10-bit ADC i.e. ADC0 & ADC1.
 •	ADC0 has 6 channels &ADC1 has 8 channels.
 •	Hence, we can connect 6 distinct types of input analog signals to ADC0 and 8 distinct types of input analog signals to ADC1.
@@ -81,7 +75,6 @@ This bit is significant only when the Start field contains 010-111. In these cas
 •	AD0GDR is a 32-bit register.
 •	This register contains the ADC’s DONE bit and the result of the most recent A/D conversion.
  ![image](https://user-images.githubusercontent.com/36288975/200110379-2aead4f2-392c-491d-9ec8-1c6b33e4ab1a.png)
-
 
 Figure-03 AD0GDR (ADC0 Global Data Register)
 •	Bit 5:0 – RESERVED
@@ -153,10 +146,8 @@ This bit is set to 1 in burst mode if the result of one or more conversions is l
 This bit is cleared by reading this register.
 •	Bit 31 – DONE
 This bit is set to 1 when an A/D conversion completes. It is cleared when this register is read.
- 
 
-
-Procedure:
+# PROCEDURE:
 Steps for Analog to Digital Conversion
 1.	Configure the ADxCR (ADC Control Register) according to the need of application.
 2.	Start ADC conversion by writing appropriate value to START bits in ADxCR. (Example, writing 001 to START bits of the register 26:24, conversion is started immediately).
@@ -164,7 +155,7 @@ Steps for Analog to Digital Conversion
 4.	Read the ADC result from the corresponding ADC Data Register.
 ADxDRy. E.g. AD0DR1 contains ADC result of channel 1 of ADC0.
 
-LM35 :
+### LM35 :
 •	LM35 is a temperature measuring device having an analog output voltage proportional to the temperature.
 •	It provides output voltage in Centigrade (Celsius). It does not require any external calibration circuitry.
 •	The sensitivity of LM35 is 10 mV/degree Celsius. As temperature increases, output voltage also increases.
@@ -186,41 +177,55 @@ Low Self-Heating, 0.08°C in Still Air
 Non-Linearity Only ±¼°C Typical
 Low-Impedance Output, 0.1 Ω for 1-mA Load
  
-
 ![image](https://user-images.githubusercontent.com/36288975/200110416-9cd78fa3-d1d3-45b5-a2e7-0f304bb32cd6.png)
 
 Figure -08 Circuit diagram of interfacing an LM35  with ADC input pin 
 
-## Kiel - Program 
+# KEIL - PROGRAM:
+```
+NAME:PAARKAVY B
+REG NO:212221230072
+```
+
+```
+#include <lpc214x.h>
+#include "LCD.h"
+#include "ADC.h"
+unsigned int val;
+int main(){
+	IO1DIR=0xffffffff;
+	IO0DIR=0x00000000;
+	PINSEL0=0x0300;
+	VPBDIV=0x02;
+	lcd_init();
+	show("ADC Value:");
+	while(1){
+		cmd(0x8b);
+		val=adc(0,6);
+		dat((val/1000)+48);
+		dat(((val/100)%10)+48);
+		dat(((val/10)%10)+48);
+		dat((val%10)+48);
+	}
+}
+``` 
  
-## Tabulations and graph 
+# TABULATIONS AND GRAPH: 
 Calculation of sensitivity 
 % of sensitivity is   S=  (T2-T1)/(A2-A1)*100
-
-
-
-
-SL NO	Temperature value in °C (T)	ADC VALUE (A)	Sensitivity 
-1			-
-2			
-3			
-4			
-5			
-6			
-7			
-8			
-9			
-10			
-
-
- 
+![output](op4.png)
 Figure -09 graph between temperature values and ADC output 
+![output](op5.png)
+# OUTPUT:
+![output](op1.jpg)
 
+![output](op2.jpg)
 
-## Result :
+![output](op3.png)
+# RESULT:
 Temperature sensor LM35 is interfaced to LPC2148 and its output is measured 
 
-## Output screen shots :
+
 
 
 
